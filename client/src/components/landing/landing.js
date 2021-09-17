@@ -7,16 +7,18 @@ function Landing() {
     return (
         <div>
            
-            <video className="myVideo" src="./landingPokemon.mp4" autoPlay >
-                
-            </video>
-            <h1>Landing Pokemon</h1>
-           <Link to="/home">Ingresar</Link>
+           
+            <h1>AQUI VA A IR EL VIDEO DE FONDO</h1>
+           <Link to='/pokemons'>
+               <button>¡Catch them!</button>
+           </Link>
            
            
         </div>
     )
 
 }
+
+
 
 export default Landing;

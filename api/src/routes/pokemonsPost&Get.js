@@ -54,7 +54,7 @@ router.get('/', async function (req, res) {
 
                 pokemonsApi = [...pokemonsApi, {
                     name: pokemon.name,
-                    imegen: pokemon.sprites.other['official-artwork'].front_default,
+                    image: pokemon.sprites.other['official-artwork'].front_default,
                     types: typePokemon
                 }]
             }
