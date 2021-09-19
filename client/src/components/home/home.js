@@ -1,15 +1,25 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import Navbar from "../navbar/navbar";
 import Header from "../header/header";
 import Pokemon from "../pokemon/pokemon.js"
-import { searchAllPokemon, searchPokemonId } from "../../redux/actions/index"
+import { searchAllPokemon, 
+    searchPokemonId,
+    getTypesPokemon,
+    } from "../../redux/actions/index"
 
 
 function Home({ pokemons, searchAllPokemon, searchPokemonId }) {
     useEffect(() => {
         searchAllPokemon()
     }, [searchAllPokemon])
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getTypesPokemon())
+    },[dispatch])
+    
+   
 
     return (
         <>
@@ -37,4 +47,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { searchAllPokemon, searchPokemonId })(Home)
+export default connect(mapStateToProps, { searchAllPokemon, searchPokemonId})(Home)

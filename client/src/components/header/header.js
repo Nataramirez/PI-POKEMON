@@ -14,8 +14,9 @@ function Header() {
                     <input
                     id="name"
                     name="name"
-                    type="text"
+                    type="search"
                     placeholder="Write name here..."
+                    autocomplete="off"
                     />
                 </label>
                 <button>Search</button>
