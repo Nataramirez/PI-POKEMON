@@ -20,9 +20,12 @@ router.post('/', async function (req, res) {
             weight,
             image,
         });
-        type.forEach(async e => {
-            await newPokemon.addType(e)
-        });
+
+        for (let index = 0; index < type.length; index++) {
+            await newPokemon.addType(type[index]);
+            
+        }
+
         return res.json(newPokemon);
 
     } catch (error) {
@@ -41,7 +44,7 @@ router.get('/', async function (req, res) {
 
     try {
         if (name === undefined) {
-            const pokemons = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=2")
+            const pokemons = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=25")
             //console.log(pokemons.data.results)
 
             for (let i = 0; i < pokemons.data.results.length; i++) {
@@ -54,8 +57,10 @@ router.get('/', async function (req, res) {
 
                 pokemonsApi = [...pokemonsApi, {
                     name: pokemon.name,
+                    id: pokemon.id,
                     image: pokemon.sprites.other['official-artwork'].front_default,
-                    types: typePokemon
+                    types: typePokemon,
+                    attack: pokemon.stats[1].base_stat
                 }]
             }
 
@@ -70,7 +75,7 @@ router.get('/', async function (req, res) {
                     },
                 }],
                 attributes: {
-                    exclude: ['id_pokemon', 'hp', 'attack', 'defense', 'speed', 'height', 'weight'],
+                    exclude: [ 'hp', 'defense', 'speed', 'height', 'weight'],
                 }
             })
 
@@ -83,7 +88,9 @@ router.get('/', async function (req, res) {
                 pokemonsDb = [...pokemonsDb, {
                     name: element.name,
                     image: element.image,
+                    id: element.id_pokemon,
                     types: types,
+                    attack: element.attack,
                 }]
             })
             //res.send(pokemonsApi)
@@ -110,7 +117,7 @@ router.get('/', async function (req, res) {
                     name: { [Op.substring]: name },
                 },
                 attributes: {
-                    exclude: ['id_pokemon', 'hp', 'attack', 'defense', 'speed', 'height', 'weight'],
+                    exclude: ['hp', 'attack', 'defense', 'speed', 'height', 'weight'],
                 }
             })
 
@@ -123,6 +130,7 @@ router.get('/', async function (req, res) {
                 pokemonsDb = [...pokemonsDb, {
                     name: element.name,
                     image: element.image,
+                    id: element.id,
                     types: types,
                 }]
             })
@@ -136,7 +144,8 @@ router.get('/', async function (req, res) {
             pokemonsApi = [{
                 name: responseApi.name,
                 image: responseApi.sprites.other['official-artwork'].front_default,
-                types: typePokemon
+                types: typePokemon,
+                id: responseApi.id,
             }]
 
             fullResponse = [...pokemonsApi, ...pokemonsDb]
@@ -194,7 +203,7 @@ router.get('/:id_pokemon', async function (req, res) {
             return fullPokemonid.length > 0 ? res.send(fullPokemonid) : res.send('¡Pokemon not found!')
         } else {
             const responseApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${id_pokemon}`)).data;
-            console.log(responseApi)
+           // console.log(responseApi)
             if (responseApi === NaN) {
                 res.send('¡Pokemon not found!')
             } else {
@@ -213,7 +222,7 @@ router.get('/:id_pokemon', async function (req, res) {
                     attack: responseApi.stats[1].base_stat,
                     defense: responseApi.stats[2].base_stat,
                     speed: responseApi.stats[5].base_stat,
-                    imegen: responseApi.sprites.other['official-artwork'].front_default,
+                    image: responseApi.sprites.other['official-artwork'].front_default,
                     types: typePokemon
                 }];
 

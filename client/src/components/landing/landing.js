@@ -1,9 +1,19 @@
-import React from 'react';
+/*eslint-disable*/
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { searchAllPokemon } from '../../redux/actions/index';
 
 import './landing.css'
 
 function Landing() {
+    const dispatch = useDispatch()
+    
+    useEffect(() => {
+       dispatch(searchAllPokemon());
+      
+    }, [])
+
     return (
         <div>
            
@@ -18,7 +28,6 @@ function Landing() {
     )
 
 }
-
 
 
 export default Landing;

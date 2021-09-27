@@ -1,12 +1,88 @@
-import React from 'react';
+/*eslint-disable*/
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import Navbar from '../navbar/navbar';
+import {
+    addNewPokemon,
+    getTypesPokemon,
+    searchAllPokemon
+} from '../../redux/actions/index.js'
 
-function NewPokemon() {
+function NewPokemon({addNewPokemon}) {
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getTypesPokemon())
+        dispatch(searchAllPokemon())
+    }, [])
+
+    const types = useSelector(state => state.types)
+
+    const [input, setInput] = useState({
+        name: '',
+        hp: 0,
+        attack: 0,
+        defense: 0,
+        speed: 0,
+        height: 0,
+        weight: 0,
+        image: '',
+        types: [],
+    })
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        let newTypes = [];
+        input.types.forEach(type => {
+            newTypes.push(parseInt(type));
+        })
+        
+        let newPokemon = {
+            name: input.name,
+            hp: parseInt(input.hp),
+            attack: parseInt(input.attack),
+            defense: parseInt(input.defense),
+            speed: parseInt(input.speed),
+            height: parseInt(input.height),
+            weight: parseInt(input.weight),
+            image: input.image,
+            type: newTypes
+        }
+      console.log(newPokemon)
+
+       addNewPokemon(newPokemon);
+
+
+    }
+
+    const handleOnChange = (e) => {
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleChangeTypes = (e) => {
+        if (input.types.includes(e.target.value)) {
+            setInput({
+                ...input,
+                types: input.types.filter(type => type !== e.target.value)
+
+            })
+        } else {
+            setInput({
+                ...input,
+                types: [...input.types, e.target.value]
+            })
+        }
+
+    }
+
     return (
         <>
             <Navbar />
             <hr />
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)} >
                 <label htmlFor="name">
                     Name:
                     <input
@@ -14,10 +90,11 @@ function NewPokemon() {
                         type="text"
                         name="name"
                         placeholder="Write here..."
-                        autocomplete="off"
                         pattern="^[A-Za-z]+$"
                         title="The field only accepts letters."
                         required
+                        value={input.name}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
@@ -31,6 +108,8 @@ function NewPokemon() {
                         placeholder="Write here..."
                         min="0"
                         required
+                        value={input.hp}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
@@ -44,6 +123,8 @@ function NewPokemon() {
                         placeholder="Write here..."
                         min="0"
                         required
+                        value={input.attack}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
@@ -57,6 +138,8 @@ function NewPokemon() {
                         placeholder="Write here..."
                         min="0"
                         required
+                        value={input.defense}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
@@ -70,6 +153,8 @@ function NewPokemon() {
                         placeholder="Write here..."
                         min="0"
                         required
+                        value={input.speed}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
@@ -83,6 +168,8 @@ function NewPokemon() {
                         placeholder="Write here..."
                         min="0"
                         required
+                        value={input.height}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
@@ -92,231 +179,54 @@ function NewPokemon() {
                     <input
                         id="weight"
                         type="number"
-                        name="Weigt"
+                        name="weight"
                         placeholder="Write here..."
                         min="0"
                         required
+                        value={input.weight}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
                 <br />
-                <label htmlFor="Image">
+                <label htmlFor="image">
                     Image:
                     <input
                         id="image"
                         type="file"
                         name="Image"
+                        value={input.image}
+                        onChange={handleOnChange}
                     />
                 </label>
                 <br />
                 <h4>Types</h4>
-                <label htmlFor="types" required>
-                    Normal
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Fighting
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Flying
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Poison
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Ground
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <br />
-                <label htmlFor="types" required>
-                    Rock 
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Bug
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Ghost 
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Steel
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Fire
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <br />
-                <label htmlFor="types" required>
-                    Water
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Grass
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Electric
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Psychic
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Ice
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <br />
-                <label htmlFor="types" required>
-                    Dragon
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Dark
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Fairy
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Unknown
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
-                <label htmlFor="types" required>
-                    Shadow
-                    <input
-                        id="types"
-                        type="checkbox"
-                        name="types"
-                        placeholder="Write here..."
-                        
-                    />
-                </label>
+                {
+                    types && types.map((type) => {
+                        return (
+                            <>
+
+                                <input 
+                                    key={type.id_type} 
+                                    type="checkbox" 
+                                    name={type[0].name} 
+                                    value={type[0].id_type} 
+                                    id={type[0].id_type} 
+                                    onChange={handleChangeTypes} 
+                                />
+                                <label key={type.id_type}  htmlFor={type[0].name}>{type[0].name}</label>
+
+
+                            </>
+                        )
+
+                    })
+
+                }
                 <button type="submit">Submit</button>
             </form>
         </>
     )
 }
 
-export default NewPokemon;
+export default connect(null, {addNewPokemon})(NewPokemon);
