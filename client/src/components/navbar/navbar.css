@@ -1,0 +1,24 @@
+.navbarButton{
+    width: 100%;
+    margin: 0px 240px 0px 240px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+.pokemonName{
+    background-image: url('../../pictures/pokemonName.png');
+    width: 200px;
+    height: 100px;
+    
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+}
+
+.navbar{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

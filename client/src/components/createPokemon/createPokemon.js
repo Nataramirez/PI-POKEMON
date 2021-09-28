@@ -51,6 +51,17 @@ function NewPokemon({addNewPokemon}) {
       console.log(newPokemon)
 
        addNewPokemon(newPokemon);
+       setInput({
+        name: '',
+        hp: 0,
+        attack: 0,
+        defense: 0,
+        speed: 0,
+        height: 0,
+        weight: 0,
+        image: '',
+        types: [],
+       })
 
 
     }

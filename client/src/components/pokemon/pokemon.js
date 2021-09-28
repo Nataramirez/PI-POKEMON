@@ -1,13 +1,14 @@
+import './pokemon.css'
 import React from 'react';
-import imageDefault from '../../pictures/imagePokemon.png'
+import imageDefault from '../../pictures/pokemonDefault.png';
 import { Link } from 'react-router-dom'
 
 function Pokemon({ name, image, types, id }) {
     return (
-        <div>
-            <img className="img-responsive" height="180" src={image ? image : imageDefault} alt="Pokemon" />
+        <div className="pokemon">
+            <img className="img-responsive" height="160" src={image ? image : imageDefault} alt="Pokemon" />
             <Link to={`pokemons/${id}`} >
-            <h2>{name}</h2>
+            <h3 className="namePokemon">{name}</h3>
             </Link>
             {
                 types ? types.map((type) => {

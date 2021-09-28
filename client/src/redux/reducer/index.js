@@ -81,16 +81,21 @@ const pokemonReducer = (state = inicialState, action) => {
                 sortPokemons: [],
             }
         case POKEMONS_ORIGIN_FROM:
+            let originPokemon = state.pokemons.filter((pokemon) => { 
+                if(action.payload === 'api'){
+                    if(!isNaN(pokemon.id)) return pokemon;
+                }
+                if(action.payload === 'db'){
+                    if(isNaN(pokemon.id)) return pokemon;
+                }
+            })
+            if(originPokemon.length === 0){
+                originPokemon.push('pokemon not found with this type')
+            }
+
             return {
                 ...state,
-                sortPokemons: state.pokemons.filter((pokemon) => {
-                    if(action.payload === 'api'){
-                        if(!isNaN(pokemon.id)) return pokemon;
-                    }
-                    if(action.payload === 'db'){
-                        if(isNaN(pokemon.id)) return pokemon;
-                    }
-                })
+                sortPokemons: originPokemon
             }
         case ORDER_TYPE_POKEMON:
             let orderPokemonByType = [];
@@ -103,7 +108,9 @@ const pokemonReducer = (state = inicialState, action) => {
                     })
                 }
             })
-                    
+            if(orderPokemonByType.length === 0){
+                orderPokemonByType.push('pokemon not found with this type')
+            }       
             return {
                 ...state,
                 sortPokemons: orderPokemonByType,

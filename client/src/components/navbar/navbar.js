@@ -1,3 +1,4 @@
+import './navbar.css'
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,11 +17,12 @@ function Navbar() {
    
 
     return (
-        <nav> 
-                <h3>Pokemons Api</h3>
+        <nav className="navbar"> 
+            <div className="navbarButton">
                 <Link to="/pokemons"><button onClick={handleUnmountAllPokemons} type="button" >Home</button></Link>
+               <div className="pokemonName"></div>
                 <Link to="/create"><button type="button" >Create</button></Link>
-                
+                </div>
         </nav>
     )
 

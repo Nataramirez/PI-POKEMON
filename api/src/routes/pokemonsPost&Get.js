@@ -23,7 +23,7 @@ router.post('/', async function (req, res) {
 
         for (let index = 0; index < type.length; index++) {
             await newPokemon.addType(type[index]);
-            
+
         }
 
         return res.json(newPokemon);
@@ -75,7 +75,7 @@ router.get('/', async function (req, res) {
                     },
                 }],
                 attributes: {
-                    exclude: [ 'hp', 'defense', 'speed', 'height', 'weight'],
+                    exclude: ['hp', 'defense', 'speed', 'height', 'weight'],
                 }
             })
 
@@ -103,6 +103,27 @@ router.get('/', async function (req, res) {
 
         // get Name 
         if (name) {
+            const pokemons = (await axios.get("https://pokeapi.co/api/v2/pokemon?limit=25")).data.results
+            //console.log(pokemons)
+            let responseApi = [];
+            for(let i = 0; i < pokemons.length; i++) {
+                if(pokemons[i].name === name){
+                    responseApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
+
+                    let typePokemon = [];
+                    responseApi.types.forEach(e => {
+                        typePokemon = [...typePokemon, e.type.name];
+                    })
+                    pokemonsApi = [{
+                        name: responseApi.name,
+                        image: responseApi.sprites.other['official-artwork'].front_default,
+                        types: typePokemon,
+                        id: responseApi.id,
+                    }]
+                }
+            }
+            
+            //if(responseApi.length < 0)
             const responseDb = await Pokemon.findAll({
                 include: [{
                     model: Type,
@@ -130,27 +151,16 @@ router.get('/', async function (req, res) {
                 pokemonsDb = [...pokemonsDb, {
                     name: element.name,
                     image: element.image,
-                    id: element.id,
+                    id: element.id_pokemon,
                     types: types,
                 }]
             })
-
-            const responseApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
-
-            let typePokemon = [];
-            responseApi.types.forEach(e => {
-                typePokemon = [...typePokemon, e.type.name];
-            })
-            pokemonsApi = [{
-                name: responseApi.name,
-                image: responseApi.sprites.other['official-artwork'].front_default,
-                types: typePokemon,
-                id: responseApi.id,
-            }]
-
+            
             fullResponse = [...pokemonsApi, ...pokemonsDb]
-
-            return fullResponse.length > 0 ? res.send(fullResponse) : res.send('¡Pokemon not found')
+            //res.send(fullResponse)
+            //return pokemonsDb.length > 0 ? res.send(pokemonsDb) : res.send('¡Pokemon not found')
+            //return pokemonsApi.length > 0 ? res.send(pokemonsApi) : res.send('¡Pokemon not found')
+            return fullResponse.length > 0 ? res.send(fullResponse) : res.send(['¡Pokemon not found!'])
         }
 
 
@@ -203,7 +213,7 @@ router.get('/:id_pokemon', async function (req, res) {
             return fullPokemonid.length > 0 ? res.send(fullPokemonid) : res.send('¡Pokemon not found!')
         } else {
             const responseApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${id_pokemon}`)).data;
-           // console.log(responseApi)
+            // console.log(responseApi)
             if (responseApi === NaN) {
                 res.send('¡Pokemon not found!')
             } else {

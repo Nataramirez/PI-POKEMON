@@ -15,16 +15,11 @@ function Landing() {
     }, [])
 
     return (
-        <div>
-           
-           
-            <h1>AQUI VA A IR EL VIDEO DE FONDO</h1>
+        <main className="landing">
            <Link to='/pokemons'>
-               <button>¡Catch them!</button>
+               <div className="landingButton"></div>
            </Link>
-           
-           
-        </div>
+        </main>
     )
 
 }

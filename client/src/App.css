@@ -1,3 +1,21 @@
+
+body{
+  background-image: url(./pictures/body.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0px -60px;
+  box-sizing: border-box;
+
+}
+
+body {
+	height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+html{
+	height: 100%;
+}
 .App {
   text-align: center;
 }

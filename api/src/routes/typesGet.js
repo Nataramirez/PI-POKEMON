@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
        const dbTypes = await Promise.all(
            types.map(e => Type.findOrCreate({
                where: {
-                   name: e.name
+                   name: e.name 
                }
            }))
        )
