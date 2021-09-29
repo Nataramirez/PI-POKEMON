@@ -90,7 +90,7 @@ const pokemonReducer = (state = inicialState, action) => {
                 }
             })
             if(originPokemon.length === 0){
-                originPokemon.push('pokemon not found with this type')
+                originPokemon.push('¡There is not pokemon with the origin sought!')
             }
 
             return {
@@ -109,7 +109,7 @@ const pokemonReducer = (state = inicialState, action) => {
                 }
             })
             if(orderPokemonByType.length === 0){
-                orderPokemonByType.push('pokemon not found with this type')
+                orderPokemonByType.push('¡There is not pokemon with the type sought!')
             }       
             return {
                 ...state,

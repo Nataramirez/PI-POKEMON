@@ -1,4 +1,5 @@
 /*eslint-disable*/
+import './header.css'
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -26,6 +27,8 @@ function Header() {
     const handleSearch = () => {
         dispatch(unmountSortPokemons())
         dispatch(searchPokemonName(input))
+        setInput("")
+        dispatch(pages(0))
 
     }
 
@@ -37,7 +40,7 @@ function Header() {
     }
 
     const handleOrder = (event) => {
-        dispatch(searchAllPokemon())
+        
         dispatch(pages(0))
         dispatch(unmountSortPokemons())
         dispatch(sortPokemons(event.target.value))
@@ -45,29 +48,34 @@ function Header() {
     }
 
     const handleOriginFrom = (event) => {
+        dispatch(pages(0))
         dispatch(unmountSortPokemons())
         dispatch(pokemonsOriginFrom(event.target.value))
     }
 
     const handleOrderTypePokemon = (event) => {
+        dispatch(pages(0))
         dispatch(unmountSortPokemons())
         dispatch(orderTypePokemon(event.target.value))
     }
 
     return (
         <>
-            <header>
-                <input
-                    id="name"
-                    name="name"
-                    type="search"
-                    placeholder="Search by name here..."
-                    onChange={handleInput}
-                    value={input}
+            <header className="header">
+                <div >
+                    <input
+                        className="searchName"
+                        id="name"
+                        name="name"
+                        type="search"
+                        placeholder="Search by name here..."
+                        onChange={handleInput}
+                        value={input}
 
-                />
-                <button onClick={handleSearch} >Search</button>
-                <button onClick={handleSearchAllPokemon} >All Pokemons</button>
+                    />
+                    <button className="btn" onClick={handleSearch} >Search</button>
+                </div>
+                <button className="sortHeader" onClick={handleSearchAllPokemon} >All Pokemons</button>
                 {
                     pokemons.length === 1 ?
                         <>
@@ -98,19 +106,19 @@ function Header() {
                             </select>
                         </> :
                         <>
-                            <select onChange={(e) => handleOrder(e)} >
-                                <option>Order by...</option>
-                                <option value="A-Z" >Name A-Z</option>
-                                <option value="Z-A">Name Z-A</option>
-                                <option value="minToMax">Attack min-max</option>
-                                <option value="maxToMin">Attack max-min</option>
+                            <select className="sortHeader" onChange={(e) => handleOrder(e)} >
+                                <option className="sortOption" >Order by...</option>
+                                <option className="sortOption" value="A-Z" >Name A-Z</option>
+                                <option className="sortOption" value="Z-A">Name Z-A</option>
+                                <option className="sortOption" value="minToMax">Attack min-max</option>
+                                <option className="sortOption" value="maxToMin">Attack max-min</option>
                             </select>
-                            <select onChange={handleOriginFrom}>
+                            <select className="sortHeader" onChange={(e) => handleOriginFrom(e)} >
                                 <option>Origin from...</option>
                                 <option value="db">Database</option>
                                 <option value="api">Api</option>
                             </select>
-                            <select onChange={handleOrderTypePokemon}>
+                            <select className="sortHeader" onChange={(e) => handleOrderTypePokemon(e)}>
                                 <option>Types...</option>
                                 {
                                     types.length > 0 ? types.map((type) => {

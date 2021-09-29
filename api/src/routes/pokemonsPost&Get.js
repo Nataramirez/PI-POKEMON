@@ -107,8 +107,8 @@ router.get('/', async function (req, res) {
             //console.log(pokemons)
             let responseApi = [];
             for(let i = 0; i < pokemons.length; i++) {
-                if(pokemons[i].name === name){
-                    responseApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
+                if(pokemons[i].name === name.toLocaleLowerCase()){
+                    responseApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name.toLocaleLowerCase()}`)).data
 
                     let typePokemon = [];
                     responseApi.types.forEach(e => {
@@ -135,7 +135,7 @@ router.get('/', async function (req, res) {
                     },
                 }],
                 where: {
-                    name: { [Op.substring]: name },
+                    name: { [Op.substring]: name.toLocaleLowerCase() },
                 },
                 attributes: {
                     exclude: ['hp', 'attack', 'defense', 'speed', 'height', 'weight'],
@@ -160,7 +160,7 @@ router.get('/', async function (req, res) {
             //res.send(fullResponse)
             //return pokemonsDb.length > 0 ? res.send(pokemonsDb) : res.send('¡Pokemon not found')
             //return pokemonsApi.length > 0 ? res.send(pokemonsApi) : res.send('¡Pokemon not found')
-            return fullResponse.length > 0 ? res.send(fullResponse) : res.send(['¡Pokemon not found!'])
+            return fullResponse.length > 0 ? res.send(fullResponse) : res.send(['¡There is not pokemon with the searched name!'])
         }
 
 

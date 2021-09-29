@@ -5,15 +5,18 @@ import Navbar from '../navbar/navbar';
 import {
     addNewPokemon,
     getTypesPokemon,
-    searchAllPokemon
+    searchAllPokemon,
+    unmountPokemonId
 } from '../../redux/actions/index.js'
 
 function NewPokemon({addNewPokemon}) {
 
     const dispatch = useDispatch()
     useEffect(() => {
+        dispatch(unmountPokemonId())
         dispatch(getTypesPokemon())
         dispatch(searchAllPokemon())
+
     }, [])
 
     const types = useSelector(state => state.types)

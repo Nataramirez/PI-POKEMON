@@ -1,10 +1,13 @@
 .pokemon{
     margin: 10px 50px 10px 50px;
-    border: 4px groove #282c34;
-    border-radius: 10px;
-    
+    border: 4px groove #A9A9A9;
+    border-radius: 10px; 
 }
 
 .namePokemon{
     margin: 0px 0px 0px 0px;
+}
+
+.pokemon:hover{
+    background-color: #FFD700;
 }
